@@ -52,6 +52,11 @@ print p, chi2
 # change fonts
 mpl.rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 mpl.rc('text', usetex=True)
+mpl.rc('xtick.major', pad=10)
+mpl.rc('ytick.major', pad=10)
+
+fmtx = mpl.ticker.StrMethodFormatter("{x:.1f}")
+fmty = mpl.ticker.StrMethodFormatter("{x:.3f}")
 
 # plot
 plt.plot(bins[1:], freq, 'k-', label='data')
@@ -59,10 +64,13 @@ plt.plot(bins[1:], f_ideal, 'r-', label='normal CDF')
 ax = plt.gca()
 ax.set_xlim([minb, maxb])
 ax.set_ylim([0., 0.04])
-ax.set_xlabel('Bin')
-ax.set_ylabel('Relative frequency')
+ax.set_xlabel('Bin', labelpad=30.)
+ax.set_ylabel('Relative frequency', labelpad=30.)
+ax.xaxis.set_major_formatter(fmtx)
+ax.yaxis.set_major_formatter(fmty)
 ax.grid()
 
-plt.text(2., 0.025, '$\chi^2$ = {:.4f}\np = {:.3f}'.format(chi2, p))
+plt.text(2., 0.025, '$\chi^2$ = {:.4f}\np = {:.1f}'.format(chi2, p),
+         bbox=dict(facecolor='none', edgecolor='blue', pad=20.0))
 plt.legend()
 plt.savefig('freq_test.png')
